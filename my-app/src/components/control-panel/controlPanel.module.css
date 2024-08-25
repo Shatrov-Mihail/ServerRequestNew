@@ -1,0 +1,35 @@
+.controlPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.controlPanel input[type="text"] {
+  width: 500px;
+  height: 35px;
+  padding: 10px;
+  border: 1px solid #0500008f;
+  border-radius: 3px;
+}
+
+.controlPanel button {
+  width: 220px;
+  height: 58px;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controlPanel button:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,29 @@
+button {
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  .editTodoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin: 8px 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .todoList button:hover {
+    background-color: #08b62e;
+  }
+  
+  .editTodoItem:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
