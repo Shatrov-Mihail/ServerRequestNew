@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import styles from "./app.module.css";
-import { useTodos } from "./hook/use-todos";
+import { useGetTodo } from "./hook/get-todos";
 import { ControlPanel } from "./components/control-panel/ControlPanel";
 import { TodosList } from "./components/todo-list/TodosList";
 
 export const App = () => {
   const {
     todos,
-    addTodos,
-    updateTodos,
-    removeTodos,
     error,
     isLoading,
-  } = useTodos([]);
+    addTodos,
+    removeTodos,
+    updateTodo,
+  } = useGetTodo([]);
   const [newTodos, setNewTodos] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [isSort, setIsSort] = useState(false);
@@ -28,14 +28,14 @@ export const App = () => {
 
   const filteredTodos = searchValue
     ? todos.filter((todo) =>
-        todo.title.toLowerCase().includes(searchValue.toLocaleLowerCase())
+        todo.title.toLowerCase().includes(searchValue.toLowerCase())
       )
     : isSort
-    ? todos.toSorted((a, b) => a.title.localeCompare(b.title))
+    ? [...todos].sort((a, b) => a.title.localeCompare(b.title))
     : todos;
 
   if (isLoading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка</div>;
+  if (error) return <div>Ошибка: {error}</div>;
 
   return (
     <div className={styles.app}>
@@ -54,7 +54,7 @@ export const App = () => {
         isLoading={isLoading}
         todos={filteredTodos}
         onDelete={removeTodos}
-        onUpdate={updateTodos}
+        onUpdate={updateTodo}
       />
     </div>
   );
