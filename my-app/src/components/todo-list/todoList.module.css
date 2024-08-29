@@ -29,3 +29,46 @@ button:hover {
 .todoList:nth-child(even) {
   background-color: #f2f2f2;
 }
+
+.todosList {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.listItem {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  display: flex; 
+  justify-content: center;  
+  align-items: center;  
+}
+
+.listItem:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.listItem a {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;  /* Добавлено */
+  width: 100%;  /* Добавлено */
+}
+
+.listItem a:hover {
+  color: #007bff;
+}
+
+.loadingMessage,
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin: 20px 0;
+}

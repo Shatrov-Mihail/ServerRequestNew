@@ -1,4 +1,5 @@
-import styles from "./controlPanel.module.css";
+import React from 'react';
+import styles from '../../app.module.css';
 
 export const ControlPanel = ({
   newTodos,
@@ -7,30 +8,32 @@ export const ControlPanel = ({
   onTodosChange,
   onSearchChange,
   setIsSort,
-  onSubmit,
+  onSubmit
 }) => {
   return (
     <div className={styles.controlPanel}>
-      <form onSubmit={onSubmit}>
+      <div className={styles.addTodoSection}>
         <input
           type="text"
-          placeholder="Поиск по задачам"
-          value={searchValue}
-          onChange={onSearchChange}
-        />
-        <button type="button" onClick={() => setIsSort(!isSort)}>
-          {isSort ? "Сбросить сортировку" : "Сортировать по алфавиту"}
-        </button>
-        <input
-          name="todo"
-          type="text"
-          placeholder="Введите значение..."
           value={newTodos}
           onChange={onTodosChange}
+          placeholder="Добавить задачу"
+          className={styles.addTodoInput}
         />
-        <button type="submit">Добавить задачу</button>
-      </form>
-      <h3>Список задач:</h3>
+        <button onClick={onSubmit} className={styles.addTodoButton}>Добавить</button>
+      </div>
+      <div className={styles.searchSection}>
+        <input
+          type="text"
+          value={searchValue}
+          onChange={onSearchChange}
+          placeholder="Поиск"
+          className={styles.searchInput}
+        />
+        <button onClick={() => setIsSort(!isSort)} className={styles.sortButton}>
+          {isSort ? '↓' : '↑'}
+        </button>
+      </div>
     </div>
   );
 };

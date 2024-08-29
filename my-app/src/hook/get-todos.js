@@ -1,41 +1,66 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { todosAPI } from "../api/todos.api";
-import { AddTodo } from "../utils/add-todo";
-import { RemoveTodo } from "../utils/remove-todo";
-import { UpdateTodo } from "../utils/update-todo";
 
-export const useGetTodo = (initialState) => {
-  const [todos, setTodos] = useState(initialState);
-  const [error, setError] = useState(null);
+const onSearchChange = (setSearchValue) => ({ target }) => setSearchValue(target.value);
+
+export const useGetTodo = (initialTodos = []) => {
+  const [todos, setTodos] = useState(initialTodos);
+  const [filteredTodos, setFilteredTodos] = useState(initialTodos);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
+  const [isSort, setIsSort] = useState(false);
+
+  const memoizedOnSearchChange = useCallback(onSearchChange(setSearchValue), []);
 
   useEffect(() => {
-    getTodos();
+    const fetchTodos = async () => {
+      setIsLoading(true);
+      try {
+        const fetchedTodos = await todosAPI.fetchAll();
+        setTodos(fetchedTodos);
+        setFilteredTodos(fetchedTodos);
+      } catch (error) {
+        console.error("Ошибка при загрузке задач:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTodos();
   }, []);
 
-  const getTodos = async () => {
+  useEffect(() => {
+    let result = todos;
+    if (searchValue) {
+      result = result.filter(todo => 
+        todo.title.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    if (isSort) {
+      result = [...result].sort((a, b) => a.title.localeCompare(b.title));
+    }
+    setFilteredTodos(result);
+  }, [todos, searchValue, isSort]);
+
+  const addTodos = async (newTodo) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const response = await todosAPI.fetchAll();
-      setTodos(response);
+      const addedTodo = await todosAPI.create({ title: newTodo });
+      setTodos(prevTodos => [...prevTodos, addedTodo]);
     } catch (error) {
-      setError("Ошибка получения: " + error.message);
+      console.error("Ошибка при добавлении задачи:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const { addTodos } = AddTodo({ todos, setTodos, setError, setIsLoading });
-  const { removeTodos } = RemoveTodo({ todos, setTodos, setError, setIsLoading });
-  const { updateTodo } = UpdateTodo({ todos, setTodos, setError, setIsLoading });
-
   return {
-    todos,
-    error,
     isLoading,
-    getTodos,
     addTodos,
-    removeTodos,
-    updateTodo
+    filteredTodos,
+    searchValue,
+    isSort,
+    setSearchValue,
+    setIsSort,
+    onSearchChange: memoizedOnSearchChange,
   };
 };

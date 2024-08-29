@@ -1,39 +1,31 @@
-import { useState } from "react";
-import { TodosItem } from "../todo-item/TodoItem";
-import { EditTodoItem } from "../edit-todo-item/EditTodoItem";
+import { Link } from "react-router-dom";
 import styles from "./todoList.module.css";
 
-export const TodosList = ({ todos, isLoading, onUpdate, onDelete }) => {
-  const [changingTodoID, setChangingTodoID] = useState(null);
+const getTodoTitle = (todo) => {
+  if (typeof todo.title === 'string') return todo.title;
+  if (todo.title && typeof todo.title.title === 'string') return todo.title.title;
+  return 'Без названия';
+};
 
-  const onSave = (updatingTodo) => {
-    onUpdate(changingTodoID, updatingTodo);
-    setChangingTodoID(null);
-  };
-
-  if (isLoading) return <div>Загрузка...</div>;
+export const TodosList = ({ todos, isLoading }) => {
+  if (isLoading) return <div className={styles.loadingMessage}>Загрузка...</div>;
+  
+  if (!todos || todos.length === 0) return <div className={styles.emptyMessage}>Задач нет</div>;
 
   return (
     <ul className={styles.todosList}>
-      {todos.map(({ id, title }) => (
-        <div key={id}>
-          {changingTodoID === id ? (
-            <EditTodoItem
-              id={id}
-              title={title}
-              onSave={onSave}
-              onCancel={() => setChangingTodoID(null)}
-            />
-          ) : (
-            <TodosItem
-              id={id}
-              title={title}
-              setChangingTodoID={setChangingTodoID}
-              onDelete={onDelete}
-            />
-          )}
-        </div>
-      ))}
+      {todos.map((todo) => {
+        const id = todo.id || todo._id;
+        const title = getTodoTitle(todo);
+        
+        return (
+          <li key={id} className={styles.listItem}>
+            <Link to={`/task/${id}`}>
+              {title.length > 30 ? title.substring(0, 30) + "..." : title}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 };

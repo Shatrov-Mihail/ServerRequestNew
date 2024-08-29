@@ -7,26 +7,27 @@ export const todosAPI = {
     const response = await fetch(todoEndPoint);
     return await response.json();
   },
-  create: async (title) => {
+  fetchOne: async (id) => {
+    const response = await fetch(todoEndPoint + id);
+    return await response.json();
+  },
+  create: async (todo) => {
     const response = await fetch(todoEndPoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({ title }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todo),
     });
     return await response.json();
   },
-  update: async ({ id, title }) => {
+  update: async (id, updatedTodo) => {
     const response = await fetch(todoEndPoint + id, {
       method: "PUT",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({ title }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTodo),
     });
     return await response.json();
   },
   remove: async (id) => {
-    const response = await fetch(todoEndPoint + id, {
-      method: "DELETE",
-    });
-    return await response.json();
+    await fetch(todoEndPoint + id, { method: "DELETE" });
   },
 };

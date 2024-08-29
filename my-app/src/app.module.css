@@ -1,113 +1,90 @@
-
-.app {
-	display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  padding: 20px;
-  background-color: #f0f4f8;
-  font-family: 'Arial', sans-serif;
-
-	/* max-width: 100%;
+body {
+	font-family: Arial, sans-serif;
+	line-height: 1.6;
+	color: #333;
+	max-width: 800px;
 	margin: 0 auto;
 	padding: 20px;
-	font-family: Arial, sans-serif;
-	background-color: #f9f9f9;
-	border-radius: 2px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-  }
-
-  .header {
-	text-align: center;
-	color: #333;
-  }
-
-  .searchValue {
-	display: flex;
-	max-width: 100%;
-	margin: 0 auto;
-	padding: 10px;
-	font-family: Arial, sans-serif;
-	background-color: #e7e2e200;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
-  .buttonList {
-	display: flex;
-	justify-content: flex-end;
-	gap: 10px;
+  h1, h2, h3 {
+	color: #2c3e50;
   }
   
   button {
 	cursor: pointer;
-	border-radius: 5px;
+	padding: 8px 16px;
+	background-color: #3498db;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-size: 14px;
+	transition: background-color 0.3s ease;
   }
   
   button:hover {
-	background-color: #218838;
+	background-color: #2980b9;
   }
   
-  .list {
-	list-style-type: none;
-	padding: 0;
+  input[type="text"] {
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	width: 100%;
+	max-width: 300px;
   }
   
-  .listItem {
+  .controlPanel {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-bottom: 20px;
+  }
+
+  .addTodoSection {
+	flex: 3; /* Занимает 3/4 пространства */
+	display: flex;
+	margin-right: 20px;
+  }
+
+  .addTodoInput {
+	flex-grow: 1;
 	padding: 8px;
-	margin: 8px 0;
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .listItem button {
-	background-color: #d8051a;
-  }
-  
-  .listItem button:hover {
-	background-color: #08b62e;
-  }
-  
-  .listItem:nth-child(even) {
-	background-color: #f2f2f2;
-  }
-  
-
-  input[type="text"] {
-	width: calc(100% - 22px);
-	padding: 10px;
-	margin: 5px 0;
-	border: 1px solid #ccc;
-	border-radius: 2px;
-	font-size: 16px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 4px 0 0 4px;
+	margin-right: -1px;
   }
 
-  button {
-	padding: 10px 15px;
-	margin: 5px;
-	border: none;
-	border-radius: 2px;
-	background-color: #28a745;
+  .addTodoButton {
+	padding: 8px 16px;
+	background-color: #3498db;
 	color: white;
+	border: none;
+	border-radius: 0 4px 4px 0;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: 14px;
   }
 
-
-
-  button:hover {
-	background-color: #218838;
+  .searchSection {
+	flex: 1; /* Занимает 1/4 пространства */
+	display: flex;
   }
 
-
-  button.sort-button {
-	background-color: #007bff; /* Синий для кнопки сортировки */
+  .searchInput {
+	flex-grow: 1;
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 4px 0 0 4px;
+	margin-right: -1px;
   }
 
-  button.sort-button:hover {
-	background-color: #0069d9; /* Темнее при наведении */
+  .sortButton {
+	padding: 8px;
+	background-color: #f0f0f0;
+	border: 1px solid #ddd;
+	border-radius: 0 4px 4px 0;
+	cursor: pointer;
   }
