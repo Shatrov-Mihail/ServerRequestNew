@@ -1,6 +1,11 @@
-
-export const FilteredTodos = ({todos, searchValue, isSort, error, isLoading}) => {
-    const filteredTodos = searchValue
+export const createFilteredTodosHandler = ({
+  todos,
+  searchValue,
+  isSort,
+  error,
+  isLoading,
+}) => {
+  const getFilteredTodos = searchValue
     ? todos.filter((todo) =>
         todo.title.toLowerCase().includes(searchValue.toLowerCase())
       )
@@ -10,6 +15,6 @@ export const FilteredTodos = ({todos, searchValue, isSort, error, isLoading}) =>
 
   if (isLoading) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка: {error}</div>;
-  
-  return filteredTodos;
-    }
+
+  return getFilteredTodos;
+};

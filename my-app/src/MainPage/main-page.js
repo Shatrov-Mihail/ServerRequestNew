@@ -1,8 +1,8 @@
 import { TodosList } from "../components/todo-list/TodosList";
 import { ControlPanel } from "../components/control-panel/ControlPanel";
-import { useGetTodo } from "../hook/get-todos";
 import { useState } from "react";
 import styles from "./main-page.module.css";
+import { useGetTodo } from '../hooks/use-get-todo';
 
 export const MainPage = () => {
     const {
@@ -11,7 +11,6 @@ export const MainPage = () => {
         filteredTodos,
         searchValue,
         isSort,
-        setSearchValue,
         setIsSort,
         onSearchChange,
     } = useGetTodo([]);
@@ -21,8 +20,10 @@ export const MainPage = () => {
       
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await addTodos(newTodos);
-        setNewTodos("");
+        if (newTodos.trim()) {
+            await addTodos(newTodos);
+            setNewTodos("");
+        }
     };
       
     return (

@@ -1,10 +1,10 @@
 import { todosAPI } from "../api/todos.api";
 
-export const UpdateTodo = ({ todos, setTodos, setError, setIsLoading }) => {
-  const updateTodo = async (id, updateTodo) => {
+export const createUpdateTodoHandler = ({ todos, setTodos, setError, setIsLoading }) => {
+  const performTodoUpdate = async (id, updatedContent) => {
     try {
       setIsLoading(true);
-      const newTodo = await todosAPI.update({ id, title: updateTodo });
+      const newTodo = await todosAPI.update({ id, title: updatedContent });
       const newTodoList = todos.map(todo => 
         todo.id === id ? newTodo : todo
       );
@@ -16,5 +16,5 @@ export const UpdateTodo = ({ todos, setTodos, setError, setIsLoading }) => {
     }
   };
 
-  return { updateTodo };
+  return { performTodoUpdate };
 };

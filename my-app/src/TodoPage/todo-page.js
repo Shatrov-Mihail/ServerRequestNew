@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { todosAPI } from "../api/todos.api";
+import { createTodoHandlers } from "../utils";
+import TodoHeader from "./components/todo-header";
+import EditTodo from "./components/edit-todo";
+import ViewTodo from "./components/view-todo";
 import styles from "./todo-page.module.css";
 
 export const TodoPage = () => {
@@ -8,8 +12,13 @@ export const TodoPage = () => {
   const navigate = useNavigate();
   const [todo, setTodo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState('');
-  const textareaRef = useRef(null);
+  const [editedTitle, setEditedTitle] = useState("");
+
+  const {
+    handleSaveEdit,
+    handleDelete,
+    handleTitleChange,
+  } = createTodoHandlers(navigate, setTodo, setIsEditing);
 
   useEffect(() => {
     const fetchTodo = async () => {
@@ -19,70 +28,30 @@ export const TodoPage = () => {
         setEditedTitle(fetchedTodo.title);
       } catch (error) {
         console.error("Ошибка при загрузке задачи:", error);
-        navigate('/404');
+        navigate("/404");
       }
     };
     fetchTodo();
   }, [id, navigate]);
 
-  useEffect(() => {
-    if (isEditing && textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-    }
-  }, [isEditing, editedTitle]);
-
-  const handleEdit = async () => {
-    try {
-      const updatedTodo = await todosAPI.update(id, { title: editedTitle });
-      setTodo(updatedTodo);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Ошибка при обновлении задачи:", error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await todosAPI.remove(id);
-      navigate('/');
-    } catch (error) {
-      console.error("Ошибка при удалении задачи:", error);
-    }
-  };
-
-  const handleTextareaChange = (e) => {
-    setEditedTitle(e.target.value);
-    e.target.style.height = 'auto';
-    e.target.style.height = e.target.scrollHeight + 'px';
-  };
-
   if (!todo) return <div>Загрузка...</div>;
 
   return (
     <div className={styles.todoPage}>
-      <div className={styles.header}>
-        <button onClick={() => navigate(-1)} className={styles.backButton}>← Назад</button>
-        <div>
-          <button onClick={() => setIsEditing(true)} className={styles.editButton}>Редактировать</button>
-          <button onClick={handleDelete} className={styles.deleteButton}>Удалить</button>
-        </div>
-      </div>
+      <TodoHeader
+        navigate={navigate}
+        setIsEditing={setIsEditing}
+        handleDelete={() => handleDelete(id)}
+      />
       {isEditing ? (
-        <div className={styles.editContainer}>
-          <textarea
-            ref={textareaRef}
-            value={editedTitle}
-            onChange={handleTextareaChange}
-            className={styles.editInput}
-          />
-          <div className={styles.editActions}>
-            <button onClick={handleEdit} className={styles.saveButton}>Сохранить</button>
-            <button onClick={() => setIsEditing(false)} className={styles.cancelButton}>Отмена</button>
-          </div>
-        </div>
+        <EditTodo
+          editedTitle={editedTitle}
+          handleTitleChange={(e) => handleTitleChange(e, setEditedTitle)}
+          handleSaveEdit={() => handleSaveEdit(id, editedTitle)}
+          setIsEditing={setIsEditing}
+        />
       ) : (
-        <h2 className={styles.todoTitle}>{todo.title}</h2>
+        <ViewTodo title={todo.title} />
       )}
     </div>
   );

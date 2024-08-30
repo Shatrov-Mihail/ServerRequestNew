@@ -1,7 +1,7 @@
 import { todosAPI } from "../api/todos.api";
 
-export const AddTodo = ({ todos, setTodos, setError, setIsLoading }) => {
-  const addTodos = async (todo) => {
+export const createAddTodoHandler = ({ todos, setTodos, setError, setIsLoading }) => {
+  const performTodoAddition = async (todo) => {
     try {
       setIsLoading(true);
       const newTodo = await todosAPI.create(todo);
@@ -12,5 +12,5 @@ export const AddTodo = ({ todos, setTodos, setError, setIsLoading }) => {
       setIsLoading(false);
     }
   };
-  return { addTodos };
+  return { performTodoAddition };
 };

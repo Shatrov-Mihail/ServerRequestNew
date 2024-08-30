@@ -1,7 +1,12 @@
 import { todosAPI } from "../api/todos.api";
 
-export const RemoveTodo = ({ todos, setTodos, setError, setIsLoading }) => {
-  const removeTodos = async (id) => {
+export const createRemoveTodoHandler = ({
+  todos,
+  setTodos,
+  setError,
+  setIsLoading,
+}) => {
+  const performTodoRemovals = async (id) => {
     try {
       setIsLoading(true);
       await todosAPI.remove(id);
@@ -12,5 +17,5 @@ export const RemoveTodo = ({ todos, setTodos, setError, setIsLoading }) => {
       setIsLoading(false);
     }
   };
-  return { removeTodos };
+  return { performTodoRemovals };
 };
