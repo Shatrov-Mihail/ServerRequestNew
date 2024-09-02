@@ -2,12 +2,14 @@ import { useState } from "react";
 import { TodosItem } from "../todo-item/TodoItem";
 import { EditTodoItem } from "../edit-todo-item/EditTodoItem";
 import styles from "./todoList.module.css";
+import { useTodosContext } from "../../context/TodosContext";
 
-export const TodosList = ({ todos, isLoading, onUpdate, onDelete }) => {
+export const TodosList = ({ todos }) => {
+  const { isLoading, updateTodos, removeTodos } = useTodosContext();
   const [changingTodoID, setChangingTodoID] = useState(null);
 
   const onSave = (updatingTodo) => {
-    onUpdate(changingTodoID, updatingTodo);
+    updateTodos(changingTodoID, updatingTodo);
     setChangingTodoID(null);
   };
 
@@ -29,7 +31,7 @@ export const TodosList = ({ todos, isLoading, onUpdate, onDelete }) => {
               id={id}
               title={title}
               setChangingTodoID={setChangingTodoID}
-              onDelete={onDelete}
+              onDelete={removeTodos}
             />
           )}
         </div>
