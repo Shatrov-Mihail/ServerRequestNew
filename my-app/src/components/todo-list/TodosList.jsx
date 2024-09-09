@@ -1,17 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { TodosItem } from "../todo-item/TodoItem";
 import { EditTodoItem } from "../edit-todo-item/EditTodoItem";
 import styles from "./todoList.module.css";
 
-export const TodosList = ({ todos, isLoading, onUpdate, onDelete }) => {
+export const TodosList = ({ todos, onUpdate, onDelete }) => {
   const [changingTodoID, setChangingTodoID] = useState(null);
 
-  const onSave = (updatingTodo) => {
-    onUpdate(changingTodoID, updatingTodo);
+  const onSave = (id, title) => {
+    onUpdate(id, title);
     setChangingTodoID(null);
   };
-
-  if (isLoading) return <div>Загрузка...</div>;
 
   return (
     <ul className={styles.todosList}>
@@ -21,7 +19,7 @@ export const TodosList = ({ todos, isLoading, onUpdate, onDelete }) => {
             <EditTodoItem
               id={id}
               title={title}
-              onSave={onSave}
+              onSave={(title) => onSave(id, title)}
               onCancel={() => setChangingTodoID(null)}
             />
           ) : (
