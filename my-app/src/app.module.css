@@ -8,14 +8,6 @@
   padding: 20px;
   background-color: #f0f4f8;
   font-family: 'Arial', sans-serif;
-
-	/* max-width: 100%;
-	margin: 0 auto;
-	padding: 20px;
-	font-family: Arial, sans-serif;
-	background-color: #f9f9f9;
-	border-radius: 2px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
   }
 
   .header {
@@ -105,9 +97,9 @@
 
 
   button.sort-button {
-	background-color: #007bff; /* Синий для кнопки сортировки */
+	background-color: #007bff;
   }
 
   button.sort-button:hover {
-	background-color: #0069d9; /* Темнее при наведении */
+	background-color: #0069d9; 
   }
